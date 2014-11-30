@@ -13,8 +13,12 @@ loop1:	12701
 	104020
 	77500+relm(loop1)
 	207
+	jsr(R7,sbr2)
 end:	br(end)
+sbr1:	207
 txt:	"Проверка недоассемблера\n"
 	0
 	org(PC+10)
 	"string\n\r"
+sbr2:	jsr(R7,sbr1)
+	207

@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 # -*- encoding=UTF-8 -*-
-#  This program is free software; you can redistribute it and/or modify
+ #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
 #  (at your option) any later version.
@@ -22,8 +22,18 @@ PC=01000
 mem=[0 for i in xrange(65535)]
 min_adr=32766
 max_adr=0
+R0=0
+R1=1
+R2=2
+R3=3
+R4=4
+R5=5
+R6=6
+R7=7
 
-
+def jsr(reg,adr):
+    return [04037+(reg*0100),adr]
+    
 def equ(cnst):
     var=cnst.split("=")[0]
     
@@ -81,7 +91,7 @@ def main():
     f.close()
 
     pas=1
-    while(pas<3):
+    while(pas<4):
      ln=1
      for line in fl:
 	s=line;
@@ -117,11 +127,16 @@ def main():
 	    mem[PC]=r
 	    PC+=2
 	    upd_pc()
+	if isinstance(r,list):
+	    for i in r:
+		mem[PC]=i
+		PC+=2
+		upd_pc()
 	if isinstance(r,str):
 	    st=r.decode('UTF-8').encode('KOI8-R')
 	    if len(st) & 0x01:
-		print "Warning line %d odd length of string, space added" % (ln)
-		st=st+" "
+		print "Warning: line %d has odd length of string, zero added" % (ln)
+		st=st+"\000"
 	    for  i in xrange(len(st)/2):
 		mem[PC]=ord(st[2*i])+256*ord(st[(2*i)+1])
 		PC+=2
