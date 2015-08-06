@@ -39,6 +39,10 @@ def equ(cnst):
     
     exec("global "+var+";"+cnst)
 
+def rel67(adr):
+    ofs=adr-(PC+2)
+    return ofs & 0177777
+
 def br(adr):
     return 0400+rel(adr)
 
@@ -47,6 +51,18 @@ def bne(adr):
 
 def beq(adr):
     return 01400+rel(adr)
+
+def ble(adr):
+    return 03400+rel(adr)
+
+def blt(adr):
+    return 02400+rel(adr)
+
+def bgt(adr):
+    return 03000+rel(adr)
+    
+def blos(adr):
+    return 0101100+rel(adr)
 
 
 def upd_pc():
