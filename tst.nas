@@ -11,7 +11,7 @@ loop1:	12701
 	12702
 	0
 	104020
-	77500+relm(loop1)
+	sob(R5,loop1)
 	207
 	jsr(R7,sbr2)
 end:	br(end)
