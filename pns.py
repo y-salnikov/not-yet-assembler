@@ -64,6 +64,8 @@ def bgt(adr):
 def blos(adr):
     return 0101100+rel(adr)
 
+def sob(r,adr):
+    return 077000+(r<<6)+relm(adr)
 
 def upd_pc():
     global PC
