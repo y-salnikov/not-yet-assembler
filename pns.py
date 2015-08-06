@@ -19,6 +19,8 @@ import sys
 import re
 from array import *
 PC=01000
+ln=1
+pas=1
 mem=[0 for i in xrange(65535)]
 min_adr=32766
 max_adr=0
@@ -83,17 +85,24 @@ def org(adr):
 
 def rel(adr):
     global PC
-    ofs=((adr/2)-((PC+2)/2)) & 0xff
-    return ofs
+    global ln
+    ofs=((adr/2)-((PC+2)/2))
+    if ((ofs>127) or (ofs< -128)):
+    	if pas==3: print("%d: Error offset is too large!\n" %(ln))
+    return ofs & 0xff
 
 def relm(adr):
     global PC
-    ofs=((2+PC-adr)/2) & 0x2f
-    return ofs
+    ofs=((2+PC-adr)/2)
+    if ofs>0x3f:
+    	if pas==3:print("%d: Error offset is too large!\n" %(ln))
+    return ofs & 0x3f
     
 def main():
     global PC
     global mem
+    global ln
+    global pas
     args=sys.argv
     if len(args)<2:
 	print"pns.py <filename>"
@@ -138,7 +147,7 @@ def main():
 	except (SyntaxError) :
 	    r=None
 	except (NameError):
-	    if pas>1: print "error: "+str(ln),s
+	    if pas==3: print "error: "+str(ln),s
 	    r=0
 	    
 	if isinstance(r,int):
@@ -153,7 +162,7 @@ def main():
 	if isinstance(r,str):
 	    st=r.decode('UTF-8').encode('KOI8-R')
 	    if len(st) & 0x01:
-		print "Warning: line %d has odd length of string, zero added" % (ln)
+		if pas==3:print "Warning: line %d has odd length of string, zero added" % (ln)
 		st=st+"\000"
 	    for  i in xrange(len(st)/2):
 		mem[PC]=ord(st[2*i])+256*ord(st[(2*i)+1])
