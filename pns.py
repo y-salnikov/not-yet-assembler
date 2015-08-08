@@ -64,7 +64,7 @@ def bgt(adr):
     return 03000+rel(adr)
     
 def blos(adr):
-    return 0101100+rel(adr)
+    return 0101400+rel(adr)
 
 def sob(r,adr):
     return 077000+(r<<6)+relm(adr)
