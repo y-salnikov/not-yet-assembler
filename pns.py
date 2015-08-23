@@ -62,7 +62,8 @@ def blt(adr):
 
 def bgt(adr):
     return 03000+rel(adr)
-    
+def bpl(adr):
+    return 0100000+rel(adr)
 def blos(adr):
     return 0101400+rel(adr)
 
